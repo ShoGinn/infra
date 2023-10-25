@@ -1,21 +1,11 @@
-#!/bin/bash
-# sets up a pre-commit hook to ensure that vault.yaml is encrypted
-#
-# credit goes to nick busey from homelabos for this neat little trick
-# https://gitlab.com/NickBusey/HomelabOS/-/issues/355
+#!/usr/bin/env sh
+# sets up a pre-commit hook to ensure that encrypted files shoudl be encrypted
+# See the unencrypted_pre_commit.sh file for more details
 
 if [ -d .git/ ]; then
-rm .git/hooks/pre-commit
-touch .git/hooks/pre-commit
-cat <<EOT >> .git/hooks/pre-commit
-if ( git show :vars/vault.yaml | grep -q "\$ANSIBLE_VAULT;" ); then
-echo "[38;5;108mVault Encrypted. Safe to commit.[0m"
-else
-echo "[38;5;208mVault not encrypted! Run 'make encrypt' and try again.[0m"
-exit 1
-fi
-EOT
-
+    rm .git/hooks/pre-commit
+    touch .git/hooks/pre-commit
+    cp dev/unencrypted_pre_commit.sh .git/hooks/pre-commit
 fi
 
 chmod +x .git/hooks/pre-commit
