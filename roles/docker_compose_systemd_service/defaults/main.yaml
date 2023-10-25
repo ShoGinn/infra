@@ -1,0 +1,6 @@
+---
+
+docker_compose_systemd_service_working_path: /etc/docker/compose
+docker_compose_systemd_service_docker_compose_path: /usr/local/bin/docker-compose
+docker_compose_systemd_service_user: root
+docker_compose_systemd_service_group: root

@@ -1,0 +1,6 @@
+---
+- name: Log in to Docker Container Registry
+  community.docker.docker_login:
+    registry_url: ghcr.io
+    username: "{{ CONTAINER_REGISTRY_USERNAME }}"
+    password: "{{ CONTAINER_REGISTRY_TOKEN }}"

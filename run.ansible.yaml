@@ -1,0 +1,29 @@
+---
+- name: Jalpeno Zimaboard
+  hosts: jalapeno
+  vars_files:
+    - "./vars/vault.yaml"
+  roles:
+    - role: grog.package
+    - role: geerlingguy.docker
+    - role: ironicbadger.bash_aliases
+    - role: ironicbadger.docker_compose_generator
+      tags: compose
+    - role: docker_compose_systemd_service
+      tags: rf
+    - role: docker-login
+      tags: rf
+    - role: rewardsfarmer
+      tags: rf
+
+- name: Chili Pi
+  hosts: chili
+  vars_files:
+    - "./vars/vault.yaml"
+  roles:
+    # - role: grog.package
+    # - role: geerlingguy.docker
+    # - role: ironicbadger.bash_aliases
+    # - role: ironicbadger.docker_compose_generator
+    #   tags: compose
+    - role: docker-login

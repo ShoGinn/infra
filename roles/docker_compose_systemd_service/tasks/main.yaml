@@ -1,0 +1,44 @@
+---
+- name: Check to see if directory exists
+  ansible.builtin.file:
+    path: "{{ docker_compose_systemd_service_working_path }}/"
+    owner: "{{ docker_compose_systemd_service_user }}"
+    group: "{{ docker_compose_systemd_service_group }}"
+    mode: "0600"
+- name: Find Docker Compose
+  block:
+    - name: Check if /usr/local/bin/docker-compose exists
+      ansible.builtin.stat:
+        path: /usr/local/bin/docker-compose
+      register: docker_compose_local_stat
+      check_mode: false
+      changed_when: false
+      failed_when: false
+
+    - name: Check if /usr/bin/docker exists
+      ansible.builtin.stat:
+        path: /usr/bin/docker
+      register: docker_bin_stat
+      check_mode: false
+      changed_when: false
+      failed_when: false
+
+    - name: Set docker-compose path
+      ansible.builtin.set_fact:
+        docker_compose_systemd_service_docker_compose_path:
+          "{% if docker_compose_local_stat.stat.exists %}/usr/local/bin/docker-compose{% elif docker_bin_stat.stat.exists
+          %}/usr/bin/docker compose{% endif %}"
+      when: >
+        docker_compose_local_stat.stat.exists or docker_bin_stat.stat.exists
+
+- name: Copy the docker service template
+  block:
+    - name: Copy the docker service template
+      ansible.builtin.template:
+        src: docker-compose.service.ansible.j2
+        dest: /etc/systemd/system/docker-compose@.service
+        owner: "{{ docker_compose_systemd_service_user }}"
+        group: "{{ docker_compose_systemd_service_group }}"
+        mode: "0644"
+      notify: reload systemd
+      when: docker_compose_systemd_service_docker_compose_path is defined
