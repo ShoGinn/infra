@@ -42,3 +42,7 @@ containers:
       - RF_TELEGRAM_CHAT_ID={{ RF_TELEGRAM_CHAT_ID }}
       - RF_HEADLESS={{ RF_HEADLESS }}
     restart: unless-stopped
+
+# rewardsfarmer
+rewardsfarmer_systemd_service_name: "{{ docker_compose_generator_output_path | basename }}"
+rewardsfarmer_systemd_service_path: "{{ docker_compose_generator_output_path }}"

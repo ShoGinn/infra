@@ -1,0 +1,38 @@
+---
+- name: Set facts for the systemd timer and service role
+  ansible.builtin.set_fact:
+    _docker_compose_systemd_app: "{{ docker_compose_systemd_service_root_service_name + '@' \
+      + docker_compose_systemd_service_servicename | ansible.builtin.mandatory }}"
+
+- name: Check if Docker Compose file exists
+  ansible.builtin.stat:
+    path: "{{ (docker_compose_systemd_service_working_path, docker_compose_systemd_service_servicename, 'docker-compose.yml') | path_join }}"
+  register: compose_file
+
+- name: Setup the SystemD components
+  when: compose_file.stat.exists
+  block:
+    - name: Enable the systemd service
+      ansible.builtin.systemd:
+        name: "{{ _docker_compose_systemd_app + '.service' }}"
+        enabled: true
+        masked: false
+      notify: reload systemd
+
+    - name: Copy the systemd timer template
+      ansible.builtin.template:
+        src: docker-compose.service.timer.ansible.j2
+        dest: "{{ _docker_compose_systemd_service_prefix + docker_compose_systemd_service_servicename + '.timer' }}"
+        owner: "{{ docker_compose_systemd_service_user }}"
+        group: "{{ docker_compose_systemd_service_group }}"
+        mode: "0644"
+      notify: reload systemd
+      when: docker_compose_systemd_service_timer_enabled | default(false) | bool
+
+    - name: Enable the docker service timer
+      ansible.builtin.systemd:
+        name: "{{ _docker_compose_systemd_app + '.timer' }}"
+        enabled: true
+        masked: false
+      notify: reload systemd
+      when: docker_compose_systemd_service_timer_enabled | default(false) | bool

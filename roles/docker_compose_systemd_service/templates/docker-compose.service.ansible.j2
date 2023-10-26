@@ -5,7 +5,7 @@ After=docker.service
 
 [Service]
 Type=simple
-WorkingDirectory={{ docker_compose_systemd_service_working_path }}/%i
+WorkingDirectory={{ (docker_compose_systemd_service_working_path, '%i') | path_join }}
 ExecStartPre={{ docker_compose_systemd_service_docker_compose_path }} pull --ignore-pull-failures
 ExecStart={{ docker_compose_systemd_service_docker_compose_path }} up --remove-orphans
 ExecStop={{ docker_compose_systemd_service_docker_compose_path }} down
