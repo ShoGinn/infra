@@ -16,7 +16,6 @@
       ansible.builtin.systemd:
         name: "{{ _docker_compose_systemd_app + '.service' }}"
         enabled: true
-        masked: false
       notify: reload systemd
 
     - name: Copy the systemd timer template
@@ -32,7 +31,7 @@
     - name: Enable the docker service timer
       ansible.builtin.systemd:
         name: "{{ _docker_compose_systemd_app + '.timer' }}"
-        enabled: true
-        masked: false
+        state: "{{ docker_compose_systemd_service_timer_state | default('started') }}"
+        enabled: "{{ docker_compose_systemd_service_timer_enabled | default(true) | bool }}"
       notify: reload systemd
       when: docker_compose_systemd_service_timer_enabled | default(false) | bool

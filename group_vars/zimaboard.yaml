@@ -17,8 +17,8 @@ bash_aliases:
   - { alias: dtail, command: "sudo docker logs -tf --tail='50' " }
   - { alias: dprunesys, command: sudo docker system prune --all }
   - { alias: dprunevol, command: sudo docker volume prune }
-  - { alias: rflogs, command: sudo journalctl -u docker-compose@rewardsfarmer.* }
-  - { alias: rfstatus, command: sudo systemctl status docker-compose@rewardsfarmer.* }
+  - { alias: rflogs, command: sudo journalctl -u docker-compose@rewardsfarmer.service }
+  - { alias: rfstatus, command: sudo systemctl status docker-compose@rewardsfarmer.service }
   - { alias: rfstart, command: sudo systemctl start docker-compose@rewardsfarmer.service }
   - { alias: rfstop, command: sudo systemctl stop docker-compose@rewardsfarmer.service }
   - { alias: rfrestart, command: sudo systemctl restart docker-compose@rewardsfarmer.service }
