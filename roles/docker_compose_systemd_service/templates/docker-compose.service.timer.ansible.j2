@@ -1,6 +1,5 @@
 [Unit]
 Description=Docker Compose Timer for {{ docker_compose_systemd_service_servicename }}
-Requires={{ _docker_compose_systemd_app + '.service' }}
 
 [Timer]
 OnCalendar=*-*-* {{ docker_compose_systemd_service_timer_hours | ansible.builtin.mandatory }}:00:00
