@@ -40,7 +40,6 @@ containers:
     environment:
       - RF_TELEGRAM_API_TOKEN={{ RF_TELEGRAM_API_TOKEN }}
       - RF_TELEGRAM_CHAT_ID={{ RF_TELEGRAM_CHAT_ID }}
-      - RF_HEADLESS={{ RF_HEADLESS }}
       - RF_GIST_URL={{ RF_GIST_URL }}
     restart: unless-stopped
 
