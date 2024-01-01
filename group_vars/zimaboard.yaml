@@ -17,32 +17,32 @@ bash_aliases:
   - { alias: dtail, command: "sudo docker logs -tf --tail='50' " }
   - { alias: dprunesys, command: sudo docker system prune --all }
   - { alias: dprunevol, command: sudo docker volume prune }
-  - { alias: rflogs, command: sudo journalctl -u docker-compose@rewardsfarmer.service }
-  - { alias: rfstatus, command: sudo systemctl status docker-compose@rewardsfarmer.service }
-  - { alias: rfstart, command: sudo systemctl start docker-compose@rewardsfarmer.service }
-  - { alias: rfstop, command: sudo systemctl stop docker-compose@rewardsfarmer.service }
-  - { alias: rfrestart, command: sudo systemctl restart docker-compose@rewardsfarmer.service }
-  - { alias: rftimerstart, command: sudo systemctl start docker-compose@rewardsfarmer.timer }
-  - { alias: rftimerstop, command: sudo systemctl stop docker-compose@rewardsfarmer.timer }
-  - { alias: rftimerrestart, command: sudo systemctl restart docker-compose@rewardsfarmer.timer }
-  - { alias: rftimers, command: sudo systemctl list-timers --all docker-compose@rewardsfarmer* }
+  # - { alias: rflogs, command: sudo journalctl -u docker-compose@rewardsfarmer.service }
+  # - { alias: rfstatus, command: sudo systemctl status docker-compose@rewardsfarmer.service }
+  # - { alias: rfstart, command: sudo systemctl start docker-compose@rewardsfarmer.service }
+  # - { alias: rfstop, command: sudo systemctl stop docker-compose@rewardsfarmer.service }
+  # - { alias: rfrestart, command: sudo systemctl restart docker-compose@rewardsfarmer.service }
+  # - { alias: rftimerstart, command: sudo systemctl start docker-compose@rewardsfarmer.timer }
+  # - { alias: rftimerstop, command: sudo systemctl stop docker-compose@rewardsfarmer.timer }
+  # - { alias: rftimerrestart, command: sudo systemctl restart docker-compose@rewardsfarmer.timer }
+  # - { alias: rftimers, command: sudo systemctl list-timers --all docker-compose@rewardsfarmer* }
 # ironicbadger.docker_compose_generator
-docker_compose_generator_output_path: /etc/docker/compose/rewardsfarmer
-docker_compose_generator_uid: root
-docker_compose_generator_gid: root
-containers:
-  - service_name: rewards_farmer
-    container_name: rewards_farmer
-    active: true
-    image: ghcr.io/shoginn/rewards-farmer:edge
-    volumes:
-      - "{{ docker_compose_generator_output_path }}/accounts.json:/root/.local/share/rewards_farmer/accounts.json"
-    environment:
-      - RF_TELEGRAM_API_TOKEN={{ RF_TELEGRAM_API_TOKEN }}
-      - RF_TELEGRAM_CHAT_ID={{ RF_TELEGRAM_CHAT_ID }}
-      - RF_GIST_URL={{ RF_GIST_URL }}
-    restart: unless-stopped
+# docker_compose_generator_output_path: /etc/docker/compose/rewardsfarmer
+# docker_compose_generator_uid: root
+# docker_compose_generator_gid: root
+# containers:
+#   - service_name: rewards_farmer
+#     container_name: rewards_farmer
+#     active: true
+#     image: ghcr.io/shoginn/rewards-farmer:edge
+#     volumes:
+#       - "{{ docker_compose_generator_output_path }}/accounts.json:/root/.local/share/rewards_farmer/accounts.json"
+#     environment:
+#       - RF_TELEGRAM_API_TOKEN={{ RF_TELEGRAM_API_TOKEN }}
+#       - RF_TELEGRAM_CHAT_ID={{ RF_TELEGRAM_CHAT_ID }}
+#       - RF_GIST_URL={{ RF_GIST_URL }}
+#     restart: unless-stopped
 
-# rewardsfarmer
-rewardsfarmer_systemd_service_name: "{{ docker_compose_generator_output_path | basename }}"
-rewardsfarmer_systemd_service_path: "{{ docker_compose_generator_output_path }}"
+# # rewardsfarmer
+# rewardsfarmer_systemd_service_name: "{{ docker_compose_generator_output_path | basename }}"
+# rewardsfarmer_systemd_service_path: "{{ docker_compose_generator_output_path }}"
